@@ -5,6 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="NewStats", menuName ="Character/Stats" , order = 1)]
 public class CharacterStats_SO : ScriptableObject
 {
+    [System.Serializable]
+    public class CharLevelUps
+    {
+        public int maxHealth;
+        public int maxMana;
+        public int maxWealth;
+        public int baseDamage;
+        public float baseResistance;
+        public float maxEncumberance;
+    }
+
     public bool setManually = false;
     public bool saveDataOnClose = false;
 
@@ -37,6 +48,8 @@ public class CharacterStats_SO : ScriptableObject
 
     public int charExperience = 0;
     public int charLevel = 0;
+
+    public CharLevelUps[] charLevelUps;
 
     public void ApplyHealth(int healthAmount)
     {
@@ -74,4 +87,62 @@ public class CharacterStats_SO : ScriptableObject
         }
     }
 
+    public void EquipWeapon(ItemPickUp weaponPickUp, CharacterInventory charInventory, GameObject weaponSlot)
+    {
+        weapon = weaponPickUp;
+        currentDamage = baseDamage + weapon.itemDefinition.itemAmount;
+
+    }
+
+    public void EquipArmour(ItemPickUp armourPickup, CharacterInventory characterInventory)
+    {
+        switch (armourPickup.itemDefinition.ItemArmourSubType)
+        {
+            case ItemArmourSubType.Head:
+                headArmour = armourPickup;
+                currentResistance += armourPickup.itemDefinition.itemAmount;
+                break;
+            case ItemArmourSubType.Chest:
+                chestArmour = armourPickup;
+                currentResistance += armourPickup.itemDefinition.itemAmount;
+                break;
+            case ItemArmourSubType.Hands:
+                handArmour = armourPickup;
+                currentResistance += armourPickup.itemDefinition.itemAmount;
+                break;
+            case ItemArmourSubType.Legs:
+                legArmour = armourPickup;
+                currentResistance += armourPickup.itemDefinition.itemAmount;
+                break;
+            case ItemArmourSubType.Feet:
+                feetArmour = armourPickup;
+                currentResistance += armourPickup.itemDefinition.itemAmount;
+                break;
+        }
+    }
+
+    public void Damage(int amount)
+    {
+        currentHealth -= amount;
+
+        if(currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+
+    public void TakeMana(int amount)
+    {
+        currentMana -= amount;
+
+        if (currentMana <= 0)
+        {
+            currentMana = 0;
+        }
+    }
+
+    private void Death()
+    {
+
+    }
 }
