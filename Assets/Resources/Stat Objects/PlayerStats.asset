@@ -10,18 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52c0826392774624592fbcfdc0c1fa4b, type: 3}
-  m_Name: NewStats
+  m_Name: PlayerStats
   m_EditorClassIdentifier: 
   setManually: 0
   saveDataOnClose: 0
   maxHealth: 0
   currentHealth: 0
+  maxMana: 0
+  currentMana: 0
   maxWealth: 0
   currentWealth: 0
   baseDamage: 0
   currentDamage: 0
   baseResistance: 0
   currentResistance: 0
+  maxEncumberance: 0
   currentEncumberance: 0
   charExperience: 0
   charLevel: 0
+  charLevelUps: []

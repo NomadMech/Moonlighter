@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class CharacterInventory : MonoBehaviour
 {
-   
+    public static CharacterInventory instance;
+
+    private void Start()
+    {
+        instance = this;
+    }
 }

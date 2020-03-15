@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName ="NewStats", menuName ="Character/Stats" , order = 1)]
@@ -44,6 +45,7 @@ public class CharacterStats_SO : ScriptableObject
     public float baseResistance = 0f;
     public float currentResistance = 0f;
 
+    public float maxEncumberance = 0f;
     public float currentEncumberance = 0f;
 
     public int charExperience = 0;
@@ -140,9 +142,115 @@ public class CharacterStats_SO : ScriptableObject
             currentMana = 0;
         }
     }
+    
+    public bool UnequipWeapon(ItemPickUp weaponPickup, CharacterInventory inventory, GameObject weaponSlot)
+    {
+        var previousWeaponSame = false;
+
+        if(weapon != null)
+        {
+            if(weapon == weaponPickup)
+            {
+                previousWeaponSame = true;
+            }
+            Object.Destroy(weaponSlot.transform.GetChild(0).gameObject);
+            weapon = null;
+            currentDamage = baseDamage;
+        }
+
+        return previousWeaponSame;
+    }
+
+    public bool UnequipArmour(ItemPickUp armourPickup, CharacterInventory inventory)
+    {
+        var previousArmourSame = false;
+
+        switch (armourPickup.itemDefinition.ItemArmourSubType)
+        {
+            case ItemArmourSubType.Head:
+                if (headArmour != null)
+                {
+                    if (headArmour == armourPickup)
+                    {
+                        previousArmourSame = true;
+                    }
+
+                    currentResistance -= armourPickup.itemDefinition.itemAmount;
+                    headArmour = null;
+                }
+                break;
+            case ItemArmourSubType.Chest:
+                if (chestArmour != null)
+                {
+                    if (chestArmour == armourPickup)
+                    {
+                        previousArmourSame = true;
+                    }
+
+                    currentResistance -= armourPickup.itemDefinition.itemAmount;
+                    chestArmour = null;
+                }
+                break;
+            case ItemArmourSubType.Hands:
+                if (handArmour != null)
+                {
+                    if (handArmour == armourPickup)
+                    {
+                        previousArmourSame = true;
+                    }
+                    currentResistance -= armourPickup.itemDefinition.itemAmount;
+                    handArmour = null;
+                }
+                break;
+            case ItemArmourSubType.Legs:
+                if (legArmour != null)
+                {
+                    if (legArmour == armourPickup)
+                    {
+                        previousArmourSame = true;
+                    }
+                    currentResistance -= armourPickup.itemDefinition.itemAmount;
+                    legArmour = null;
+                }
+                break;
+            case ItemArmourSubType.Feet:
+                if (feetArmour != null)
+                {
+                    if (feetArmour == armourPickup)
+                    {
+                        previousArmourSame = true;
+                    }
+                    currentResistance -= armourPickup.itemDefinition.itemAmount;
+                    feetArmour = null;
+                }
+                break;
+        }
+
+        return previousArmourSame;
+    }
+
 
     private void Death()
     {
 
     }
+
+    private void Levelup()
+    {
+        charLevel += 1;
+        // other level up stuff
+
+
+        maxHealth = charLevelUps[charLevel - 1].maxHealth;
+        maxMana = charLevelUps[charLevel - 1].maxMana;
+      
+    }
+
+    public void SaveCharacterData()
+    {
+        saveDataOnClose = true;
+        EditorUtility.SetDirty(this);
+    }
+
+
 }
