@@ -22,7 +22,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject[] SystemPrefabs;
     public EventGameState OnGameStateChanged;
 
-    private List<GameObject> _instancedSystemPrefabs;
+    [SerializeField] private List<GameObject> _instancedSystemPrefabs;
     private string _currentLevelName = string.Empty;
     private List<AsyncOperation> _loadOperations;
     private GameState _currentGameState = GameState.PREGAME;
@@ -87,7 +87,7 @@ public class GameManager : Singleton<GameManager>
 
         for (int i = 0; i < SystemPrefabs.Length; i++)
         {
-            var prefabInstance = Instantiate(SystemPrefabs[i]);
+            GameObject prefabInstance = Instantiate(SystemPrefabs[i]);
             _instancedSystemPrefabs.Add(prefabInstance);
         }
     }
