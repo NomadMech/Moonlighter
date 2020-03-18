@@ -4,10 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-[System.Serializable]public class EventGameState : UnityEvent<GameManager.GameState, GameManager.GameState>
-{
-
-}
 
 public class GameManager : Singleton<GameManager>
 {
@@ -20,7 +16,7 @@ public class GameManager : Singleton<GameManager>
 
 
     public GameObject[] SystemPrefabs;
-    public EventGameState OnGameStateChanged;
+    public Events.EventGameState OnGameStateChanged;
 
     [SerializeField] private List<GameObject> _instancedSystemPrefabs;
     private string _currentLevelName = string.Empty;
@@ -35,11 +31,26 @@ public class GameManager : Singleton<GameManager>
     {
       
         DontDestroyOnLoad(gameObject);
+        _instancedSystemPrefabs = new List<GameObject>();
         _loadOperations = new List<AsyncOperation>();
 
         InstantiateSystemPrefabs();
-    }
 
+        UIManager.Instance.OnMainMenuFadeComplete.AddListener(HandleMainMenuFadeComplete);
+    }
+    private void Update()
+    {
+        if (_currentGameState == GameManager.GameState.PREGAME)
+        {
+            return;
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+    }
 
     private void OnLoadOperationComplete(AsyncOperation ao)
     {
@@ -69,10 +80,13 @@ public class GameManager : Singleton<GameManager>
         switch (_currentGameState)
         {
             case GameState.PREGAME:
+                Time.timeScale = 1.0f;
                 break;
             case GameState.RUNNING:
+                Time.timeScale = 1.0f;
                 break;
             case GameState.PAUSED:
+                Time.timeScale = 0.0f;
                 break;
             default:
                 break;
@@ -132,5 +146,30 @@ public class GameManager : Singleton<GameManager>
     public void StartGame()
     {
         LoadLevel("Main");
+    }
+
+    public void TogglePause()
+    {
+        UpdateState(_currentGameState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+        
+    }
+
+    public void RestartGame()
+    {
+        UpdateState(GameState.PREGAME);
+    }
+
+    public void QuitGame()
+    {
+        // do things before quitting game
+        Application.Quit();
+    }
+
+    private void HandleMainMenuFadeComplete(bool fadeOut)
+    {
+        if (!fadeOut)
+        {
+            UnloadLevel(_currentLevelName);
+        }
     }
 }
