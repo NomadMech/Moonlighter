@@ -154,7 +154,7 @@ MonoBehaviour:
   OnGameStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: EventGameState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: Events+EventGameState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _instancedSystemPrefabs: []
 --- !u!4 &1388262300

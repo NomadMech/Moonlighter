@@ -10,4 +10,9 @@ public class CharacterInventory : MonoBehaviour
     {
         instance = this;
     }
+
+    public void StoreItem(ItemPickUp itemToStore)
+    {
+
+    }
 }
