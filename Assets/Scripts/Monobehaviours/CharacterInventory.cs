@@ -15,4 +15,34 @@ public class CharacterInventory : MonoBehaviour
     {
 
     }
+
+    private void TryPickUp()
+    {
+
+    }
+
+    private bool AddItemToInventory(bool finishedAdding)
+    {
+        return true;
+    }
+
+    private void AddItemToHotBat(InvetoryEntry itemForHotBar)
+    {
+
+    }
+
+    private void DispayInvetory()
+    {
+
+    }
+
+    private void FillInventoryDisplay()
+    {
+
+    }
+
+    public void TriggerItemUse(int itemToUseId)
+    {
+
+    }
 }

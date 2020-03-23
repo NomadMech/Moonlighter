@@ -97,4 +97,6 @@ public class CharacterStats : MonoBehaviour
     {
         return characterDefinition.weapon;
     }
+
+ 
 }
