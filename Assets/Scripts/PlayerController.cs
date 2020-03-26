@@ -6,34 +6,35 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public float moveSpeed = 5f;
-    public Rigidbody2D rigidbody;
-    public Camera cam;
+    Rigidbody2D body;
 
-    Vector2 movement;
-    Vector2 mousePos;
+    float horizontal;
+    float vertical;
+    float moveLimiter = 0.7f;
 
-    private void Start()
+    public float runSpeed = 20.0f;
+
+    void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-
-        
+        body = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        // Gives a value between -1 and 1
+        horizontal = Input.GetAxisRaw("Horizontal"); // -1 is left
+        vertical = Input.GetAxisRaw("Vertical"); // -1 is down
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        rigidbody.MovePosition(rigidbody.position + movement * moveSpeed * Time.fixedDeltaTime);
+        if (horizontal != 0 && vertical != 0) // Check for diagonal movement
+        {
+            // limit movement speed diagonally, so you move at 70% speed
+            horizontal *= moveLimiter;
+            vertical *= moveLimiter;
+        }
 
-        var lookDir = mousePos - rigidbody.position;
-        var angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        rigidbody.rotation = angle;
+        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 }

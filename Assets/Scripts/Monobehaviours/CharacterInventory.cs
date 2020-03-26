@@ -5,7 +5,8 @@ using UnityEngine;
 public class CharacterInventory : MonoBehaviour
 {
     public static CharacterInventory instance;
-
+    public CharacterStats charStats;
+    public bool addedItem;
     private void Start()
     {
         instance = this;
@@ -13,7 +14,17 @@ public class CharacterInventory : MonoBehaviour
 
     public void StoreItem(ItemPickUp itemToStore)
     {
+        addedItem = false;
 
+        if((charStats.characterDefinition.currentEncumberance +
+            itemToStore.itemDefinition.itemWeight) <= charStats.characterDefinition.maxEncumberance)
+        {
+            //itemEntry.invEntry = itemToStore;
+            //itemEntry.stackSize = 1;
+            //itemEntry.hbSprite = itemToStore.itemDefinition.itemIcon;
+
+            itemToStore.gameObject.SetActive(false);
+        }
     }
 
     private void TryPickUp()
@@ -26,10 +37,10 @@ public class CharacterInventory : MonoBehaviour
         return true;
     }
 
-    private void AddItemToHotBat(InvetoryEntry itemForHotBar)
-    {
+    //private void AddItemToHotBat(InventoryEntry itemForHotBar)
+    //{
 
-    }
+    //}
 
     private void DispayInvetory()
     {

@@ -28,6 +28,7 @@ public class CharacterStats_SO : ScriptableObject
     public ItemPickUp feetArmour { get; private set; }
     public ItemPickUp misc1 { get; private set; }
     public ItemPickUp misc2 { get; private set; }
+  
 
 
     public int maxHealth = 0;
@@ -52,7 +53,7 @@ public class CharacterStats_SO : ScriptableObject
     public int charLevel = 0;
 
     public CharLevelUps[] charLevelUps;
-
+    public PlayerSaveData_SO characterData;
     public void ApplyHealth(int healthAmount)
     {
         if((currentHealth + healthAmount) > maxHealth)
